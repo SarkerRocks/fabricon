@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { products } from '@/data/products'
 import { useCart } from '@/context/CartContext'
 
@@ -10,17 +10,31 @@ export default function ProductPage() {
   const router = useRouter()
   const { addToCart } = useCart()
 
+  // State for selections
   const [selectedSize, setSelectedSize] = useState(null)
+  const [selectedColor, setSelectedColor] = useState(null)
   const [added, setAdded] = useState(false)
 
-  const product = products.find(p => p.id === Number(id))
+  // Find product with safety check
+  const product = id ? products.find(p => p.id === Number(id)) : null
+
+  // Map your 5 specific colors to hex codes
+  const colorMap = {
+    'Black': '#171717',
+    'Off White': '#FAF9F6',
+    'Dark Brown': '#4A3728',
+    'Navy Blue': '#1A2942',
+    'Red': '#B91C1C'
+  }
 
   function handleAddToCart() {
-    if (!selectedSize) {
-      alert('Please select a size first!')
+    if (!selectedSize || !selectedColor) {
+      alert('Please select both Size and Color!')
       return
     }
-    addToCart(product, selectedSize)
+    // Note: Ensure your CartContext is updated to accept the color parameter
+    addToCart(product, selectedSize, selectedColor)
+    
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
   }
@@ -28,7 +42,7 @@ export default function ProductPage() {
   if (!product) return (
     <div style={{ textAlign: 'center', padding: '120px 24px', color: 'var(--muted)' }}>
       <p style={{ fontSize: '48px' }}>👕</p>
-      <p style={{ fontSize: '24px' }}>Product not found.</p>
+      <p style={{ fontSize: '24px', fontFamily: 'Bebas Neue, sans-serif' }}>Product not found.</p>
     </div>
   )
 
@@ -36,34 +50,31 @@ export default function ProductPage() {
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 24px' }}>
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-        gap: '60px',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+        gap: '80px',
         alignItems: 'start',
       }}>
 
-        {/* Image */}
+        {/* --- LEFT SIDE: IMAGE --- */}
         <div style={{
-          aspectRatio: '1',
+          aspectRatio: '4/5',
           background: '#1a1a2e',
-          borderRadius: '8px',
+          borderRadius: '12px',
           border: '1px solid var(--border)',
           position: 'relative',
           overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}>
           {product.badge && (
             <span style={{
               position: 'absolute',
-              top: '16px',
-              left: '16px',
+              top: '20px',
+              left: '20px',
               background: 'linear-gradient(90deg, #4F6FFF, #B44FFF)',
               color: 'white',
-              fontSize: '11px',
+              fontSize: '12px',
               fontWeight: 700,
               letterSpacing: '0.1em',
-              padding: '6px 14px',
+              padding: '6px 16px',
               borderRadius: '2px',
               zIndex: 1,
             }}>{product.badge}</span>
@@ -71,93 +82,108 @@ export default function ProductPage() {
           <img
             src={product.image}
             alt={product.name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0 }}
-            onError={(e) => { e.target.style.display = 'none' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            onError={(e) => { e.target.src = 'https://via.placeholder.com/600x800?text=Fabricon+Streetwear' }}
           />
         </div>
 
-        {/* Info */}
+        {/* --- RIGHT SIDE: INFO & ACTIONS --- */}
         <div>
-          <p style={{ color: 'var(--cyan)', fontSize: '12px', letterSpacing: '0.3em', fontWeight: 600, marginBottom: '12px' }}>
-            {product.category?.toUpperCase()} TEE
+          <p style={{ color: 'var(--cyan)', fontSize: '13px', letterSpacing: '0.3em', fontWeight: 600, marginBottom: '16px' }}>
+            {product.category?.toUpperCase()} ARCHIVE
           </p>
 
           <h1 style={{
             fontFamily: 'Bebas Neue, sans-serif',
-            fontSize: 'clamp(40px, 6vw, 64px)',
-            lineHeight: '0.95',
-            marginBottom: '16px',
+            fontSize: 'clamp(44px, 6vw, 72px)',
+            lineHeight: '0.9',
+            marginBottom: '20px',
+            letterSpacing: '0.02em'
           }}>{product.name}</h1>
 
           <p style={{
             fontFamily: 'Bebas Neue, sans-serif',
-            fontSize: '40px',
-            color: 'var(--cyan)',
-            marginBottom: '24px',
+            fontSize: '44px',
+            color: 'var(--text)',
+            marginBottom: '32px',
           }}>৳{product.price}</p>
 
-          <p style={{ color: 'var(--muted)', fontSize: '15px', lineHeight: '1.7', marginBottom: '32px' }}>
+          <p style={{ color: 'var(--muted)', fontSize: '16px', lineHeight: '1.8', marginBottom: '40px', maxWidth: '500px' }}>
             {product.description}
           </p>
 
-          {/* Colors */}
-          <div style={{ marginBottom: '28px' }}>
-            <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', marginBottom: '12px' }}>COLORS</p>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {product.colors.map(color => (
-                <span key={color} style={{
-                  border: '1px solid var(--border)',
-                  padding: '6px 16px',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  color: 'var(--muted)',
-                }}>{color}</span>
+          {/* COLOR SELECTOR (SWATCHES) */}
+          <div style={{ marginBottom: '32px' }}>
+            <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', marginBottom: '16px' }}>
+              COLOR: <span style={{ color: 'var(--cyan)' }}>{selectedColor || 'SELECT'}</span>
+            </p>
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+              {product.colors?.map(color => (
+                <button
+                  key={color}
+                  onClick={() => setSelectedColor(color)}
+                  title={color}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: colorMap[color] || '#ccc',
+                    border: selectedColor === color ? '2px solid var(--cyan)' : '2px solid transparent',
+                    outline: '1px solid var(--border)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    transform: selectedColor === color ? 'scale(1.1)' : 'scale(1)'
+                  }}
+                />
               ))}
             </div>
           </div>
 
-          {/* Sizes */}
-          <div style={{ marginBottom: '32px' }}>
-            <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', marginBottom: '12px' }}>SELECT SIZE</p>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {product.sizes.map(size => (
+          {/* SIZE SELECTOR */}
+          <div style={{ marginBottom: '40px' }}>
+            <p style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', marginBottom: '16px' }}>SELECT SIZE</p>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              {product.sizes?.map(size => (
                 <button
                   key={size}
                   onClick={() => setSelectedSize(size)}
                   style={{
-                    width: '52px',
-                    height: '52px',
+                    width: '60px',
+                    height: '50px',
                     border: '1px solid',
-                    borderColor: selectedSize === size ? '#4F6FFF' : 'var(--border)',
-                    background: selectedSize === size ? 'linear-gradient(90deg, #4F6FFF, #B44FFF)' : 'transparent',
-                    color: 'var(--text)',
+                    borderColor: selectedSize === size ? 'var(--cyan)' : 'var(--border)',
+                    background: selectedSize === size ? 'rgba(79, 111, 255, 0.1)' : 'transparent',
+                    color: selectedSize === size ? 'var(--cyan)' : 'var(--text)',
                     fontWeight: 700,
-                    fontSize: '13px',
+                    fontSize: '14px',
                     borderRadius: '4px',
                     cursor: 'pointer',
+                    transition: 'all 0.2s'
                   }}
-                >{size}</button>
+                >
+                  {size}
+                </button>
               ))}
             </div>
           </div>
 
-          {/* Buttons */}
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          {/* ACTION BUTTONS */}
+          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
             <button
               onClick={handleAddToCart}
               style={{
-                flex: 1,
-                minWidth: '200px',
-                padding: '18px 32px',
+                flex: 2,
+                minWidth: '240px',
+                padding: '20px',
                 background: added ? '#22c55e' : 'linear-gradient(90deg, #4F6FFF, #B44FFF)',
                 color: 'white',
                 border: 'none',
-                fontWeight: 700,
+                fontWeight: 800,
                 fontSize: '14px',
-                letterSpacing: '0.1em',
+                letterSpacing: '0.15em',
                 borderRadius: '4px',
                 cursor: 'pointer',
-                transition: 'background 0.3s',
+                transition: 'transform 0.1s active',
               }}
             >
               {added ? '✓ ADDED TO CART' : 'ADD TO CART'}
@@ -165,20 +191,18 @@ export default function ProductPage() {
 
             <button
               onClick={() => {
-                if (!selectedSize) { alert('Please select a size first!'); return }
-                addToCart(product, selectedSize)
+                if (!selectedSize || !selectedColor) { alert('Select size & color'); return }
+                addToCart(product, selectedSize, selectedColor)
                 router.push('/cart')
               }}
               style={{
                 flex: 1,
-                minWidth: '200px',
-                padding: '18px 32px',
+                padding: '20px',
                 background: 'transparent',
                 color: 'var(--text)',
                 border: '1px solid var(--border)',
-                fontWeight: 700,
+                fontWeight: 800,
                 fontSize: '14px',
-                letterSpacing: '0.1em',
                 borderRadius: '4px',
                 cursor: 'pointer',
               }}
@@ -187,17 +211,17 @@ export default function ProductPage() {
             </button>
           </div>
 
-          {/* Trust badges */}
+          {/* TRUST BADGES */}
           <div style={{
-            marginTop: '32px',
-            paddingTop: '24px',
+            marginTop: '48px',
+            paddingTop: '32px',
             borderTop: '1px solid var(--border)',
             display: 'flex',
-            gap: '24px',
+            gap: '32px',
             flexWrap: 'wrap',
           }}>
-            {['🔒 Secure Checkout', '🚚 Free delivery over ৳3000', '↩️ Easy returns'].map(badge => (
-              <span key={badge} style={{ color: 'var(--muted)', fontSize: '13px' }}>{badge}</span>
+            {['🔒 SECURE CHECKOUT', '🚚 FREE DHAKA SHIPPING', '↩️ 7-DAY EXCHANGE'].map(badge => (
+              <span key={badge} style={{ color: 'var(--muted)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em' }}>{badge}</span>
             ))}
           </div>
         </div>

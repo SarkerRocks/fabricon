@@ -49,19 +49,30 @@ export default function CartPage() {
               alignItems: 'center',
             }}>
 
-              {/* Image placeholder */}
-              <div style={{
-                width: '80px',
-                height: '80px',
-                background: '#1a1a2e',
-                borderRadius: '6px',
-                border: '1px solid var(--border)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <span style={{ fontSize: '24px' }}>👕</span>
-              </div>
+{/* Product Image */}
+<div style={{
+  width: '80px',
+  height: '80px',
+  background: '#1a1a2e',
+  borderRadius: '6px',
+  border: '1px solid var(--border)',
+  position: 'relative',
+  overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}}>
+  <img 
+    src={item.image} 
+    alt={item.name} 
+    style={{ 
+      width: '100%', 
+      height: '100%', 
+      objectFit: 'cover' // This ensures the T-shirt fills the square nicely
+    }} 
+    onError={(e) => { e.target.src = 'https://via.placeholder.com/80?text=Shirt' }}
+  />
+</div>
 
               {/* Details */}
               <div>
