@@ -8,7 +8,7 @@ export default function SuccessPage() {
         ORDER CONFIRMED!
       </h2>
       <p style={{ color: 'var(--muted)', fontSize: '16px', marginBottom: '32px', maxWidth: '400px', margin: '0 auto 32px' }}>
-        Thanks for shopping with Fabricon. You'll receive a confirmation shortly.
+        Thanks for shopping with Fabricon. You will receive a confirmation shortly.
       </p>
       <Link href="/products" style={{
         background: 'linear-gradient(90deg, #4F6FFF, #B44FFF)',

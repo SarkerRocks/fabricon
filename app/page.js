@@ -137,7 +137,7 @@ export default function HomePage() {
           STREET. CULTURE. STYLE.
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: '18px', maxWidth: '600px', margin: '0 auto 40px', lineHeight: '1.7' }}>
-          Fabricon is more than clothing. It's a movement born in the streets of Dhaka,
+          Fabricon is more than clothing. It is a movement born in the streets of Dhaka,
           designed for those who live the culture every day.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '48px', flexWrap: 'wrap' }}>

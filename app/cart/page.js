@@ -12,7 +12,7 @@ export default function CartPage() {
     <div style={{ textAlign: 'center', padding: '120px 24px' }}>
       <p style={{ fontSize: '64px', marginBottom: '24px' }}>🛒</p>
       <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '48px', marginBottom: '16px' }}>YOUR CART IS EMPTY</h2>
-      <p style={{ color: 'var(--muted)', marginBottom: '32px' }}>Looks like you haven't added anything yet.</p>
+      <p style={{ color: 'var(--muted)', marginBottom: '32px' }}>Looks like you have not added anything yet.</p>
       <Link href="/products" style={{
         background: 'linear-gradient(90deg, #4F6FFF, #B44FFF)',
         color: 'white',
