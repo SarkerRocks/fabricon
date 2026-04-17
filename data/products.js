@@ -7,7 +7,7 @@ export const products = [
   ...Array.from({ length: 9 }, (_, i) => ({
     id: i + 1,
     name: `Black Graphic Tee Vol. ${i + 1}`,
-    price: 1200,
+    price: 400,
     category: 'printed',
     colors: ['Black'],
     sizes: GLOBAL_SIZES,
@@ -20,7 +20,7 @@ export const products = [
   ...Array.from({ length: 8 }, (_, i) => ({
     id: i + 10, // Starts ID from 10
     name: `White Graphic Tee Vol. ${i + 1}`,
-    price: 1200,
+    price: 400,
     category: 'printed',
     colors: ['Off White'],
     sizes: GLOBAL_SIZES,
@@ -32,7 +32,7 @@ export const products = [
   ...Array.from({ length: 5 }, (_, i) => ({
     id: i + 18, // Starts ID from 18
     name: `Red Graphic Tee Vol. ${i + 1}`,
-    price: 1250,
+    price: 400,
     category: 'printed',
     colors: ['Red'],
     sizes: GLOBAL_SIZES,
@@ -44,7 +44,7 @@ export const products = [
   {
     id: 23,
     name: 'Navy Graphic Tee Vol. 1',
-    price: 1100,
+    price: 400,
     category: 'printed',
     colors: ['Navy Blue'],
     sizes: GLOBAL_SIZES,
@@ -53,7 +53,7 @@ export const products = [
   {
     id: 24,
     name: 'Navy Graphic Tee Vol. 2',
-    price: 1100,
+    price: 400,
     category: 'printed',
     colors: ['Navy Blue'],
     sizes: GLOBAL_SIZES,
@@ -62,7 +62,7 @@ export const products = [
   {
     id: 25,
     name: 'Brown Graphic Tee Vol. 1',
-    price: 1300,
+    price: 400,
     category: 'printed',
     colors: ['Dark Brown'],
     sizes: GLOBAL_SIZES,
@@ -74,7 +74,7 @@ export const products = [
   {
     id: 101,
     name: 'Essential Blank Black',
-    price: 850,
+    price: 250,
     category: 'solid',
     colors: ['Black'],
     sizes: GLOBAL_SIZES,
@@ -85,7 +85,7 @@ export const products = [
   {
     id: 102,
     name: 'Essential Blank Off-White',
-    price: 850,
+    price: 250,
     category: 'solid',
     colors: ['Off White'],
     sizes: GLOBAL_SIZES,
@@ -95,7 +95,7 @@ export const products = [
   {
     id: 103,
     name: 'Essential Blank Dark Brown',
-    price: 850,
+    price: 250,
     category: 'solid',
     colors: ['Dark Brown'],
     sizes: GLOBAL_SIZES,
@@ -104,7 +104,7 @@ export const products = [
   {
     id: 104,
     name: 'Essential Blank Navy Blue',
-    price: 850,
+    price: 250,
     category: 'solid',
     colors: ['Navy Blue'],
     sizes: GLOBAL_SIZES,
@@ -113,7 +113,7 @@ export const products = [
   {
     id: 105,
     name: 'Essential Blank Red',
-    price: 850,
+    price: 250,
     category: 'solid',
     colors: ['Red'],
     sizes: GLOBAL_SIZES,
